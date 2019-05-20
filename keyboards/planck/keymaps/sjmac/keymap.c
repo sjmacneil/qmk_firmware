@@ -26,7 +26,8 @@ enum planck_layers {
   _LOWER,
   _RAISE,
   _PLOVER,
-  _ADJUST
+  _ADJUST,
+  _SNG
 };
 
 enum planck_keycodes {
@@ -35,11 +36,18 @@ enum planck_keycodes {
   DVORAK,
   PLOVER,
   BACKLIT,
-  EXT_PLV
+  EXT_PLV,
+  OVERWATCH,
+  PUZZLE,
+  TREASURE,
+  BASKET,
+  PRELUDE,
+  FANFARE
 };
 
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
+#define SNG MO(_SNG)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -58,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
     KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT ,
-    BACKLIT, KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
+    SNG,     KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
 ),
 
 /* Colemak
@@ -167,6 +175,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  COLEMAK,  DVORAK,  PLOVER,  _______,
     _______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  TERM_ON, TERM_OFF, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
+),
+
+/* Music (Lower + Raise)
+ * ,-----------------------------------------------------------------------------------.
+ * |          |          |          |          |          |          |          |          |          |          |          |          |
+ * |----------+----------+----------+----------+----------+-----------------+----------+----------+----------+----------+------|
+ * |          |          |          |Overwatch|Puzzle|Treasure|Basket|FF Prelude|FF Victory|          |          |          |
+ * |----------+----------+----------+----------+----------+------|----------+----------+----------+----------+----------+------|
+ * |          |          |          |          |          |          |          |          |          |          |          |          |
+ * |----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+------|
+ * |          |          |          |          |          |                     |          |          |          |          |          |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_SNG] = LAYOUT_planck_grid(
+    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
+    _______, _______, _______, OVERWATCH, PUZZLE, TREASURE, BASKET, PRELUDE, FANFARE,  _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
 )
 
 };
@@ -174,6 +200,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #ifdef AUDIO_ENABLE
   float plover_song[][2]     = SONG(PLOVER_SOUND);
   float plover_gb_song[][2]  = SONG(PLOVER_GOODBYE_SOUND);
+  float overwatch[][2] = SONG(OVERWATCH_THEME);
+  float zelda_puzzle[][2] = SONG(ZELDA_PUZZLE);
+  float zelda_treasure[][2] = SONG(ZELDA_TREASURE);
+  float basket_case[][2] = SONG(BASKET_CASE);
+  float ff_prelude[][2] = SONG(FF_PRELUDE);
+  float ff_fanfare[][2] = SONG(VICTORY_FANFARE_SHORT);
 #endif
 
 uint32_t layer_state_set_user(uint32_t state) {
@@ -246,6 +278,42 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
+    case OVERWATCH:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(overwatch);
+        #endif
+      }
+    case PUZZLE:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(zelda_puzzle);
+        #endif
+      }
+    case TREASURE:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(zelda_treasure);
+        #endif
+      }
+    case BASKET:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(basket_case);
+        #endif
+      }
+    case PRELUDE:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(ff_prelude);
+        #endif
+      }
+    case FANFARE:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(ff_fanfare);
+        #endif
+      }
   }
   return true;
 }
