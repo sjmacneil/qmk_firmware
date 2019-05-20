@@ -153,10 +153,11 @@ ifdef keymap
 endif
 
 # Uncomment these for debugging
-# $(info Keyboard: $(KEYBOARD))
-# $(info Keymap: $(KEYMAP))
-# $(info Subproject: $(SUBPROJECT))
-# $(info Keyboards: $(KEYBOARDS))
+ $(info Keyboard: $(KEYBOARD))
+ $(info Keymap: $(KEYMAP))
+ $(info Subproject: $(SUBPROJECT))
+ $(info Keyboards: $(KEYBOARDS))
+ CONSOLE_ENABLE=yes
 
 
 # Set the default goal depending on where we are running make from
