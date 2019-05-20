@@ -42,7 +42,10 @@ enum planck_keycodes {
   TREASURE,
   BASKET,
   PRELUDE,
-  FANFARE
+  FANFARE,
+  MARIO,
+  MARIO_GO,
+  MUSHROOM
 };
 
 #define LOWER MO(_LOWER)
@@ -191,7 +194,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_SNG] = LAYOUT_planck_grid(
     _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
     _______, _______, _______, OVERWATCH, PUZZLE, TREASURE, BASKET, PRELUDE, FANFARE,  _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
+    _______, _______, _______, MARIO, MARIO_GO, MUSHROOM, _______, _______, _______,  _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
 )
 
@@ -206,6 +209,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   float basket_case[][2] = SONG(BASKET_CASE);
   float ff_prelude[][2] = SONG(FF_PRELUDE);
   float ff_fanfare[][2] = SONG(VICTORY_FANFARE_SHORT);
+  float mario[][2] = SONG(MARIO_THEME);
+  float mario_go[][2] = SONG(MARIO_GAMEOVER);
+  float mushroom[][2] = SONG(MARIO_MUSHROOM);
 #endif
 
 uint32_t layer_state_set_user(uint32_t state) {
@@ -284,36 +290,72 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           PLAY_SONG(overwatch);
         #endif
       }
+     return false;
+      break;
     case PUZZLE:
       if (record->event.pressed) {
         #ifdef AUDIO_ENABLE
           PLAY_SONG(zelda_puzzle);
         #endif
       }
+     return false;
+     break;
     case TREASURE:
       if (record->event.pressed) {
         #ifdef AUDIO_ENABLE
           PLAY_SONG(zelda_treasure);
         #endif
       }
+      return false;
+      break;
     case BASKET:
       if (record->event.pressed) {
         #ifdef AUDIO_ENABLE
           PLAY_SONG(basket_case);
         #endif
       }
+      return false;
+      break;
     case PRELUDE:
       if (record->event.pressed) {
         #ifdef AUDIO_ENABLE
           PLAY_SONG(ff_prelude);
         #endif
       }
+      return false;
+      break;
     case FANFARE:
       if (record->event.pressed) {
         #ifdef AUDIO_ENABLE
           PLAY_SONG(ff_fanfare);
         #endif
       }
+      return false;
+      break;
+    case MARIO:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(mario);
+        #endif
+      }
+      return false;
+      break;
+    case MARIO_GO:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(mario_go);
+        #endif
+      }
+      return false;
+      break;
+    case MUSHROOM:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(mushroom);
+        #endif
+      }
+      return false;
+      break;
   }
   return true;
 }
