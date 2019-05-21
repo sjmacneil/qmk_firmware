@@ -45,7 +45,12 @@ enum planck_keycodes {
   FANFARE,
   MARIO,
   MARIO_GO,
-  MUSHROOM
+  MUSHROOM,
+  STAR_WAR,
+  RICK_ASTLEY,
+  NEDM,
+  LINKIN,
+  TROOPER
 };
 
 #define LOWER MO(_LOWER)
@@ -194,7 +199,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_SNG] = LAYOUT_planck_grid(
     _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
     _______, _______, _______, OVERWATCH, PUZZLE, TREASURE, BASKET, PRELUDE, FANFARE,  _______, _______, _______,
-    _______, _______, _______, MARIO, MARIO_GO, MUSHROOM, _______, _______, _______,  _______, _______, _______,
+    _______, _______, _______, MARIO, MARIO_GO, MUSHROOM, STAR_WAR, RICK_ASTLEY, NEDM,  LINKIN, TROOPER, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
 )
 
@@ -212,6 +217,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   float mario[][2] = SONG(MARIO_THEME);
   float mario_go[][2] = SONG(MARIO_GAMEOVER);
   float mushroom[][2] = SONG(MARIO_MUSHROOM);
+  float star_war[][2] = SONG(TO_BOLDLY_GO);
+  float rick_roll[][2] = SONG(RICK_ROLL);
+  float nedm[][2] = SONG(E1M1_DOOM);
+  float linkin[][2] = SONG(LP_NUMB);
+  float trooper[][2] = SONG(IMPERIAL_MARCH);
 #endif
 
 uint32_t layer_state_set_user(uint32_t state) {
@@ -352,6 +362,46 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         #ifdef AUDIO_ENABLE
           PLAY_SONG(mushroom);
+        #endif
+      }
+      return false;
+      break;
+    case STAR_WAR:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(star_war);
+        #endif
+      }
+      return false;
+      break;
+    case RICK_ASTLEY:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(rick_roll);
+        #endif
+      }
+      return false;
+      break;
+    case NEDM:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(nedm);
+        #endif
+      }
+      return false;
+      break;
+    case LINKIN:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(linkin);
+        #endif
+      }
+      return false;
+      break;
+    case TROOPER:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(trooper);
         #endif
       }
       return false;
