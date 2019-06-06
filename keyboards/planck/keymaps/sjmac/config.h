@@ -1,7 +1,7 @@
 #pragma once
 
 #ifdef AUDIO_ENABLE
-#  define STARTUP_SONG SONG(VICTORY_FANFARE_SHORT)
+#  define STARTUP_SONG SONG(POKEMON_THEME)
     // #define STARTUP_SONG SONG(NO_SOUND)
 
     #define DEFAULT_LAYER_SONGS { SONG(QWERTY_SOUND), \
@@ -37,3 +37,4 @@
 // Most tactile encoders have detents every 4 stages
 #define ENCODER_RESOLUTION 4
 
+#define TAPPING_TERM 200

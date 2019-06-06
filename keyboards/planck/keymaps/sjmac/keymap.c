@@ -52,7 +52,18 @@ enum planck_keycodes {
   RICK_ASTLEY,
   NEDM,
   LINKIN,
-  TROOPER
+  TROOPER,
+  POKEMON
+};
+
+enum {
+    TD_TAPS_LOCK = 0
+};
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+    // Tap once for Esc, twice for Caps Lock
+    [TD_TAPS_LOCK] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS)
+    // Other declarations would go here, separated by commas, if you have them
 };
 
 #define LOWER MO(_LOWER)
@@ -75,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = LAYOUT_planck_grid(
     KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
     KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-    KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT ,
+    TD(TD_TAPS_LOCK), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT ,
     SNG,     KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
 ),
 /* Qwerty
@@ -217,7 +228,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_SNG] = LAYOUT_planck_grid(
     _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-    _______, _______, _______, OVERWATCH, PUZZLE, TREASURE, BASKET, PRELUDE, FANFARE,  _______, _______, _______,
+    _______, _______, _______, OVERWATCH, PUZZLE, TREASURE, BASKET, PRELUDE, FANFARE,  POKEMON, _______, _______,
     _______, _______, _______, MARIO, MARIO_GO, MUSHROOM, STAR_WAR, RICK_ASTLEY, NEDM,  LINKIN, TROOPER, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
 )
@@ -241,6 +252,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   float nedm[][2] = SONG(E1M1_DOOM);
   float linkin[][2] = SONG(LP_NUMB);
   float trooper[][2] = SONG(IMPERIAL_MARCH);
+  float pokemon[][2] = SONG(POKEMON_THEME);
 #endif
 
 uint32_t layer_state_set_user(uint32_t state) {
@@ -429,6 +441,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         #ifdef AUDIO_ENABLE
           PLAY_SONG(trooper);
+        #endif
+      }
+      return false;
+      break;
+    case POKEMON:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+            PLAY_SONG(pokemon);
         #endif
       }
       return false;
