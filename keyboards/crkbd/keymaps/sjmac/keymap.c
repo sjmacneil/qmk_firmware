@@ -9,29 +9,6 @@ extern rgblight_config_t rgblight_config;
 
 extern uint8_t is_master;
 
-typedef union {
-uint32_t raw;
-struct {
-        bool    rgb_layer_change :1;
-    };
-} user_config_t;
-
-user_config_t user_config;
-
-void keyboard_post_init_user(void) {
-  // Call the keymap level matrix init.
-
-  // Read the user config from EEPROM
-  user_config.raw = eeconfig_read_user();
-
-  // Set default layer, if enabled
-  if (user_config.rgb_layer_change) {
-    rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom_purple();
-    rgblight_mode_noeeprom(1);
-  }
-}
-
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
@@ -119,7 +96,7 @@ LCTL_T(KC_ESC),  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     
 
   [_ADJUST] = LAYOUT( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        RESET,  RGBRST, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_ESC,\
+        RESET,  RGBRST, XXXXXXX, XXXXXXX, RGB_MODE_PLAIN, RGB_MODE_BREATHE,                      MAGIC_TOGGLE_CTL_GUI, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_ESC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,  KC_ESC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -166,11 +143,11 @@ void matrix_init_user(void) {
 const char *read_layer_state(void);
 const char *read_logo(void);
 void set_keylog(uint16_t keycode, keyrecord_t *record);
-const char *read_keylog(void);
+//const char *read_keylog(void);
 //const char *read_keylogs(void);
 
-// const char *read_mode_icon(bool swap);
- const char *read_host_led_state(void);
+ const char *read_mode_icon(bool swap);
+// const char *read_host_led_state(void);
 // void set_timelog(void);
 // const char *read_timelog(void);
 
@@ -182,10 +159,10 @@ void matrix_render_user(struct CharacterMatrix *matrix) {
   if (is_master) {
     // If you want to change the display of OLED, you need to change here
     matrix_write_ln(matrix, read_layer_state());
-    matrix_write_ln(matrix, read_keylog());
+//    matrix_write_ln(matrix, read_keylog());
     //matrix_write_ln(matrix, read_keylogs());
-    //matrix_write_ln(matrix, read_mode_icon(keymap_config.swap_lalt_lgui));
-    matrix_write_ln(matrix, read_host_led_state());
+    matrix_write_ln(matrix, read_mode_icon(keymap_config.swap_lalt_lgui));
+//    matrix_write_ln(matrix, read_host_led_state());
     //matrix_write_ln(matrix, read_timelog());
   } else {
     matrix_write(matrix, read_logo());
@@ -209,9 +186,9 @@ void iota_gfx_task_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
-#ifdef SSD1306OLED
-    set_keylog(keycode, record);
-#endif
+//#ifdef SSD1306OLED
+//    set_keylog(keycode, record);
+//#endif
     // set_timelog();
   }
 
