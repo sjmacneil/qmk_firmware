@@ -24,7 +24,8 @@ enum custom_keycodes {
   RAISE,
   ADJUST,
   BACKLIT,
-  RGBRST
+  RGBRST,
+  SPONGEBOB
 };
 
 typedef struct {
@@ -96,7 +97,7 @@ LCTL_T(KC_ESC),  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     
 
   [_ADJUST] = LAYOUT( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        RESET,  RGBRST, XXXXXXX, XXXXXXX, RGB_MODE_PLAIN, RGB_MODE_BREATHE,                      MAGIC_TOGGLE_CTL_GUI, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_ESC,\
+      RESET,  RGBRST, XXXXXXX, XXXXXXX, RGB_MODE_PLAIN, RGB_MODE_BREATHE,        MAGIC_TOGGLE_CTL_GUI, SPONGEBOB, XXXXXXX, XXXXXXX, XXXXXXX,  KC_ESC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,  KC_ESC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -184,6 +185,9 @@ void iota_gfx_task_user(void) {
 }
 #endif//SSD1306OLED
 
+bool spongebob_mode = false;
+bool spongebob_case = false;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
 //#ifdef SSD1306OLED
@@ -191,8 +195,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 //#endif
     // set_timelog();
   }
+  if (spongebob_mode) {
+    switch(keycode) {
+      case KC_A ... KC_Z:
+        if (record->event.pressed) {
+          (spongebob_case ^= 1) == 0 ? tap_code16(S(keycode)) : tap_code(keycode);
+          return false; break;
+        }
+    }
+  }
 
   switch (keycode) {
+    case SPONGEBOB:
+      if (record->event.pressed) {
+        spongebob_mode ^= 1;
+      }
+      return false; break;
     case QWERTY:
       if (record->event.pressed) {
         persistent_default_layer_set(1UL<<_QWERTY);
