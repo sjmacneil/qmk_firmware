@@ -14,9 +14,10 @@ extern uint8_t is_master;
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
 #define _QWERTY 0
-#define _LOWER 1
-#define _RAISE 2
+#define _LOWER  1
+#define _RAISE  2
 #define _ADJUST 3
+#define _GAME   4
 
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
@@ -25,7 +26,8 @@ enum custom_keycodes {
   ADJUST,
   BACKLIT,
   RGBRST,
-  SPONGEBOB
+  SPONGEBOB,
+  GAME
 };
 
 typedef struct {
@@ -97,7 +99,7 @@ LCTL_T(KC_ESC),  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     
 
   [_ADJUST] = LAYOUT( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      RESET,  RGBRST, XXXXXXX, XXXXXXX, RGB_MODE_PLAIN, RGB_MODE_BREATHE,        MAGIC_TOGGLE_CTL_GUI, SPONGEBOB, XXXXXXX, XXXXXXX, XXXXXXX,  KC_ESC,\
+      RESET,  RGBRST, XXXXXXX, XXXXXXX, RGB_MODE_PLAIN, RGB_MODE_BREATHE,        MAGIC_TOGGLE_CTL_GUI, MAGIC_TOGGLE_ALT_GUI, MAGIC_TOGGLE_NKRO, SPONGEBOB, GAME, KC_ESC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,  KC_ESC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -105,7 +107,20 @@ LCTL_T(KC_ESC),  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI,   LOWER,  KC_SPC,     KC_ENT, RAISE, KC_RALT \
                                       //`--------------------------'  `--------------------------'
-  )
+  ),
+
+    [_GAME] = LAYOUT( \
+    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+         KC_1, KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,                         KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,  KC_BSPC,\
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+         KC_2, LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,                  KC_G,    KC_H,    KC_J,    KC_K,    KC_L, KC_QUOT,\
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        KC_3,  KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,                         KC_B,   KC_N,    KC_M, KC_COMM,  KC_DOT,KC_SFTENT,\
+    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                            KC_LCTL,   KC_LSFT ,  KC_SPC,     KC_F1, KC_F2,  QWERTY \
+                                        //`--------------------------'  `--------------------------'
+
+    )
 };
 
 const uint16_t PROGMEM esc_combo[] = {KC_J, KC_K, COMBO_END};
@@ -148,9 +163,10 @@ void set_keylog(uint16_t keycode, keyrecord_t *record);
 //const char *read_keylogs(void);
 
  const char *read_mode_icon(bool swap);
-// const char *read_host_led_state(void);
-// void set_timelog(void);
-// const char *read_timelog(void);
+ const char *read_host_led_state(void);
+ void set_timelog(void);
+ const char *read_timelog(void);
+ const char *read_rgb_info(void);
 
 void matrix_scan_user(void) {
    iota_gfx_task();
@@ -162,9 +178,9 @@ void matrix_render_user(struct CharacterMatrix *matrix) {
     matrix_write_ln(matrix, read_layer_state());
 //    matrix_write_ln(matrix, read_keylog());
     //matrix_write_ln(matrix, read_keylogs());
-    matrix_write_ln(matrix, read_mode_icon(keymap_config.swap_lalt_lgui));
-//    matrix_write_ln(matrix, read_host_led_state());
-    //matrix_write_ln(matrix, read_timelog());
+//    matrix_write_ln(matrix, read_mode_icon(keymap_config.swap_lctl_lgui));
+    matrix_write_ln(matrix, read_rgb_info());
+    matrix_write_ln(matrix, read_timelog());
   } else {
     matrix_write(matrix, read_logo());
   }
@@ -183,7 +199,7 @@ void iota_gfx_task_user(void) {
   matrix_render_user(&matrix);
   matrix_update(&display, &matrix);
 }
-#endif//SSD1306OLED
+#endif//SSD1306OLEDu
 
 bool spongebob_mode = false;
 bool spongebob_case = false;
@@ -193,7 +209,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 //#ifdef SSD1306OLED
 //    set_keylog(keycode, record);
 //#endif
-    // set_timelog();
+     set_timelog();
   }
   if (spongebob_mode) {
     switch(keycode) {
@@ -216,6 +232,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         persistent_default_layer_set(1UL<<_QWERTY);
       }
       return false;
+    case GAME:
+      if (record->event.pressed){
+        persistent_default_layer_set(1UL<<_GAME);
+      }
     case LOWER:
       if (record->event.pressed) {
         layer_on(_LOWER);
