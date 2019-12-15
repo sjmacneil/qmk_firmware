@@ -99,7 +99,7 @@ LCTL_T(KC_ESC),  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     
 
   [_ADJUST] = LAYOUT( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      RESET,  RGBRST, XXXXXXX, XXXXXXX, RGB_MODE_PLAIN, RGB_MODE_BREATHE,        MAGIC_TOGGLE_CTL_GUI, MAGIC_TOGGLE_ALT_GUI, MAGIC_TOGGLE_NKRO, SPONGEBOB, GAME, KC_ESC,\
+      RESET,  RGBRST, RGB_MOD, RGB_M_SW, RGB_MODE_PLAIN, RGB_MODE_BREATHE,        MAGIC_TOGGLE_CTL_GUI, MAGIC_TOGGLE_ALT_GUI, MAGIC_TOGGLE_NKRO, SPONGEBOB, GAME, KC_ESC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,  KC_ESC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
