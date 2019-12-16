@@ -101,9 +101,9 @@ LCTL_T(KC_ESC),  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       RESET,  RGBRST, RGB_MOD, RGB_M_SW, RGB_MODE_PLAIN, RGB_MODE_BREATHE,        MAGIC_TOGGLE_CTL_GUI, MAGIC_TOGGLE_ALT_GUI, MAGIC_TOGGLE_NKRO, SPONGEBOB, GAME, KC_ESC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,  KC_ESC,\
+      KC_LCTL, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,  KC_ESC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, KC_PGDN, XXXXXXX,\
+      KC_LSFT, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, KC_PGDN, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI,   LOWER,  KC_SPC,     KC_ENT, RAISE, KC_RALT \
                                       //`--------------------------'  `--------------------------'
@@ -166,7 +166,7 @@ void set_keylog(uint16_t keycode, keyrecord_t *record);
  const char *read_host_led_state(void);
  void set_timelog(void);
  const char *read_timelog(void);
- const char *read_rgb_info(void);
+// const char *read_rgb_info(void);
 
 void matrix_scan_user(void) {
    iota_gfx_task();
@@ -179,7 +179,7 @@ void matrix_render_user(struct CharacterMatrix *matrix) {
 //    matrix_write_ln(matrix, read_keylog());
     //matrix_write_ln(matrix, read_keylogs());
 //    matrix_write_ln(matrix, read_mode_icon(keymap_config.swap_lctl_lgui));
-    matrix_write_ln(matrix, read_rgb_info());
+//    matrix_write_ln(matrix, read_rgb_info());
     matrix_write_ln(matrix, read_timelog());
   } else {
     matrix_write(matrix, read_logo());
@@ -261,24 +261,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           layer_off(_ADJUST);
         }
         return false;
-    case RGB_MOD:
-      #ifdef RGBLIGHT_ENABLE
-        if (record->event.pressed) {
-          rgblight_mode(RGB_current_mode);
-          rgblight_step();
-          RGB_current_mode = rgblight_config.mode;
-        }
-      #endif
-      return false;
-    case RGBRST:
-      #ifdef RGBLIGHT_ENABLE
-        if (record->event.pressed) {
-          eeconfig_update_rgblight_default();
-          rgblight_enable();
-          RGB_current_mode = rgblight_config.mode;
-        }
-      #endif
-      break;
+//    case RGB_MOD:
+//      #ifdef RGBLIGHT_ENABLE
+//        if (record->event.pressed) {
+//          rgblight_mode(RGB_current_mode);
+//          rgblight_step();
+//          RGB_current_mode = rgblight_config.mode;
+//        }
+//      #endif
+//      return false;
+//    case RGBRST:
+//      #ifdef RGBLIGHT_ENABLE
+//        if (record->event.pressed) {
+//          eeconfig_update_rgblight_default();
+//          rgblight_enable();
+//          RGB_current_mode = rgblight_config.mode;
+//        }
+//      #endif
+//      break;
   }
   return true;
 }
