@@ -99,7 +99,7 @@ LCTL_T(KC_ESC),  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     
 
   [_ADJUST] = LAYOUT( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      RESET,  RGBRST, RGB_MOD, RGB_M_SW, RGB_MODE_PLAIN, RGB_MODE_BREATHE,        MAGIC_TOGGLE_CTL_GUI, MAGIC_TOGGLE_ALT_GUI, MAGIC_TOGGLE_NKRO, SPONGEBOB, GAME, KC_ESC,\
+      RESET,  RGBRST, RGB_MOD, RGB_M_SW, RGB_MODE_PLAIN, RGB_MODE_BREATHE,        MAGIC_TOGGLE_CTL_GUI, XXXXXXX, MAGIC_TOGGLE_NKRO, SPONGEBOB, GAME, KC_ESC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,  KC_ESC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -178,9 +178,9 @@ void matrix_render_user(struct CharacterMatrix *matrix) {
     matrix_write_ln(matrix, read_layer_state());
 //    matrix_write_ln(matrix, read_keylog());
     //matrix_write_ln(matrix, read_keylogs());
-//    matrix_write_ln(matrix, read_mode_icon(keymap_config.swap_lctl_lgui));
+    matrix_write_ln(matrix, read_mode_icon(keymap_config.swap_lctl_lgui));
 //    matrix_write_ln(matrix, read_rgb_info());
-    matrix_write_ln(matrix, read_timelog());
+//    matrix_write_ln(matrix, read_timelog());
   } else {
     matrix_write(matrix, read_logo());
   }
