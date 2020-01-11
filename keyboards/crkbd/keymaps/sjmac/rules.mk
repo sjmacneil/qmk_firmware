@@ -3,6 +3,7 @@ COMBO_ENABLE     = yes
 RGBLIGHT_ENABLE  = no
 RGB_MATRIX_ENABLE = WS2812
 BOOTMAGIC_ENABLE = yes
+EXTRAKEY_ENABLE = yes
 NKRO_ENABLE      = yes
 COMMAND_ENABLE   = no  # Commands for debug and configuration
 UNICODE_ENABLE   = no  # Unicode
