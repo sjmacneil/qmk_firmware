@@ -39,21 +39,7 @@ enum planck_keycodes {
   PLOVER,
   BACKLIT,
   EXT_PLV,
-  OVERWATCH,
-  PUZZLE,
-  TREASURE,
-  BASKET,
-  PRELUDE,
-  FANFARE,
-  MARIO,
-  MARIO_GO,
-  MUSHROOM,
-  STAR_WAR,
-  RICK_ASTLEY,
-  NEDM,
-  LINKIN,
-  TROOPER,
-  POKEMON
+  USSR
 };
 
 enum {
@@ -210,7 +196,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_ADJUST] = LAYOUT_planck_grid(
     _______, RESET,   DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, KC_DEL ,
-    _______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  COLEMAK,  DVORAK,  PLOVER,  GAME,
+    _______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  XXXXXXX,  XXXXXXX,  XXXXXXX,  GAME,
     _______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  TERM_ON, TERM_OFF, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
 ),
@@ -228,8 +214,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_SNG] = LAYOUT_planck_grid(
     _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-    _______, _______, _______, OVERWATCH, PUZZLE, TREASURE, BASKET, PRELUDE, FANFARE,  POKEMON, _______, _______,
-    _______, _______, _______, MARIO, MARIO_GO, MUSHROOM, STAR_WAR, RICK_ASTLEY, NEDM,  LINKIN, TROOPER, _______,
+    _______, _______, _______, USSR, USSR, USSR, USSR, USSR, USSR,  USSR, _______, _______,
+    _______, _______, _______, USSR, USSR, USSR, USSR, USSR, USSR,  USSR, USSR, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
 )
 
@@ -238,21 +224,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #ifdef AUDIO_ENABLE
   float plover_song[][2]     = SONG(PLOVER_SOUND);
   float plover_gb_song[][2]  = SONG(PLOVER_GOODBYE_SOUND);
-  float overwatch[][2] = SONG(OVERWATCH_THEME);
-  float zelda_puzzle[][2] = SONG(ZELDA_PUZZLE);
-  float zelda_treasure[][2] = SONG(ZELDA_TREASURE);
-  float basket_case[][2] = SONG(BASKET_CASE);
-  float ff_prelude[][2] = SONG(FF_PRELUDE);
-  float ff_fanfare[][2] = SONG(VICTORY_FANFARE_SHORT);
-  float mario[][2] = SONG(MARIO_THEME);
-  float mario_go[][2] = SONG(MARIO_GAMEOVER);
-  float mushroom[][2] = SONG(MARIO_MUSHROOM);
-  float star_war[][2] = SONG(TO_BOLDLY_GO);
-  float rick_roll[][2] = SONG(RICK_ROLL);
-  float nedm[][2] = SONG(E1M1_DOOM);
-  float linkin[][2] = SONG(LP_NUMB);
-  float trooper[][2] = SONG(IMPERIAL_MARCH);
-  float pokemon[][2] = SONG(POKEMON_THEME);
+  float ussr[][2]  = SONG(USSR_ANTHEM);
 #endif
 
 uint32_t layer_state_set_user(uint32_t state) {
@@ -271,7 +243,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         set_single_persistent_default_layer(_GAME);
         #ifdef AUDIO_ENABLE
-            PLAY_SONG(ff_fanfare);
+            PLAY_SONG(ussr);
         #endif
       }
       return false;
@@ -333,122 +305,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
-    case OVERWATCH:
+    case USSR:
       if (record->event.pressed) {
         #ifdef AUDIO_ENABLE
-          PLAY_SONG(overwatch);
-        #endif
-      }
-     return false;
-      break;
-    case PUZZLE:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(zelda_puzzle);
-        #endif
-      }
-     return false;
-     break;
-    case TREASURE:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(zelda_treasure);
-        #endif
-      }
-      return false;
-      break;
-    case BASKET:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(basket_case);
-        #endif
-      }
-      return false;
-      break;
-    case PRELUDE:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(ff_prelude);
-        #endif
-      }
-      return false;
-      break;
-    case FANFARE:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(ff_fanfare);
-        #endif
-      }
-      return false;
-      break;
-    case MARIO:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(mario);
-        #endif
-      }
-      return false;
-      break;
-    case MARIO_GO:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(mario_go);
-        #endif
-      }
-      return false;
-      break;
-    case MUSHROOM:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(mushroom);
-        #endif
-      }
-      return false;
-      break;
-    case STAR_WAR:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(star_war);
-        #endif
-      }
-      return false;
-      break;
-    case RICK_ASTLEY:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(rick_roll);
-        #endif
-      }
-      return false;
-      break;
-    case NEDM:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(nedm);
-        #endif
-      }
-      return false;
-      break;
-    case LINKIN:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(linkin);
-        #endif
-      }
-      return false;
-      break;
-    case TROOPER:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(trooper);
-        #endif
-      }
-      return false;
-      break;
-    case POKEMON:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-            PLAY_SONG(pokemon);
+            PLAY_SONG(ussr);
         #endif
       }
       return false;
